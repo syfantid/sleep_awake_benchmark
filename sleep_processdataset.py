@@ -16,8 +16,8 @@ print("Generating dataset for Task %d" % (TASK))
 OUTPUTFILE="hdf_task%d" % (TASK)
 
 if TASK in [1, 2]:
-    PATH_TO_FILES = "datasets"
-    # PATH_TO_FILES = "./datasets/task%d/" % (TASK)
+    # PATH_TO_FILES = "datasets"
+    PATH_TO_FILES = os.path.join("datasets", "task{}".format(TASK))
     # if not os.path.exists(PATH_TO_FILES):
     #     os.makedirs(PATH_TO_FILES)
 else:
@@ -32,10 +32,10 @@ print("...Done...")
 
 dfoutname = "dftrain_task%d.csv" % (TASK)
 print("...Saving Task %d dataset to disk. Filename: %s ..." % (TASK, dfoutname))
-dftrain[["mesaid", "linetime", "marker", "interval", "binterval", "gt", "gt_sleep_block", "wake"]].to_csv(dfoutname, index=False)
+dftrain[["mesaid", "linetime", "marker", "interval", "binterval", "activity", "gt", "gt_sleep_block", "wake"]].to_csv(dfoutname, index=False)
 
 dfoutname = "dftest_task%d.csv" % (TASK)
 print("...Saving Task %d dataset to disk. Filename: %s ..." % (TASK, dfoutname))
-dftest[["mesaid", "linetime", "marker", "interval", "binterval", "gt", "gt_sleep_block", "wake"]].to_csv(dfoutname, index=False)
+dftest[["mesaid", "linetime", "marker", "interval", "binterval", "activity", "gt", "gt_sleep_block", "wake"]].to_csv(dfoutname, index=False)
 print("...Done...")
 

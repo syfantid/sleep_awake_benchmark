@@ -24,12 +24,14 @@ def load_dataset(path, useCache=False, saveCache=False, cacheName="hdf", ground_
     # Or....load the dataset from scratch
     tmp = []
     filenames = glob(os.path.join(path, "*"))[:]
-    counter = 0
+    # counter = 0
     for filename in tqdm(filenames):
         # print(filename)
-        counter += 1
-        if counter <= 1456:
-            continue
+        # counter += 1
+        # 1164 for validation
+        # 1456 for test
+        # if counter > 1164:
+        #     break
         dftmp = load_mesa_PSG(filename, ground_truth)
 
         # creates a gt_block
@@ -50,15 +52,16 @@ def load_dataset(path, useCache=False, saveCache=False, cacheName="hdf", ground_
 
     # Generates a binary version of the interval col
     wholedf["binterval"] = wholedf["interval"].replace("ACTIVE", 0).replace("REST", 1).replace("REST-S", 1)
+    wholedf = wholedf[["mesaid", "linetime", "marker", "interval", "binterval", "activity", "gt", "gt_sleep_block", "wake"]]
 
     # Workaround: Run the following only if dataframe doesn't fit in memory;
     # combine it with the counter funtionality at the for loop
-    dfoutname = "dftest_whole_task%d.csv" % (2)
-    wholedf.to_csv(dfoutname, index=False)
+    # dfoutname = "dftrain_task%d.csv" % (2)
+    # wholedf.to_csv(dfoutname, index=False)
     # wholedf[["mesaid", "linetime", "marker", "interval", "binterval", "gt", "gt_sleep_block", "wake"]].to_csv(dfoutname,
     #                                                                                                           index=False)
-    print("...Saved Task %d dataset to disk. Filename: %s ..." % (2, dfoutname))
-    exit(0)
+    # print("...Saved Task %d dataset to disk. Filename: %s ..." % (2, dfoutname))
+    # exit(0)
     # Splits uids into training and test sets.
     test_proportion = 0.2
 
